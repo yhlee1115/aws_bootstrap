@@ -8,11 +8,7 @@ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongod
 sudo apt update || exit 1
 sudo apt install -y mongodb-org || exit 1
 sudo service mongod start || exit 1
-netstat -tnlp | grep 27017 || exit 1
-mongo || exit 1
-
 sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 5000
 sudo sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 sudo sed -i 's/#security:/security:\n  authorization: enabled/g' /etc/mongod.conf
 sudo service mongod restart
-netstat -tnlp | grep 27017 || exit 1
